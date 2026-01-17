@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body style="background-color: #fff9fb;"> <div class="grid-container">
+        <div class="scrapbook-card col-red">
+            <div class="tape-effect"></div>
+            <h2 class="column-title">High</h2>
+            {% for task in high %}
+                <div class="task-item">{{ task.title }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="scrapbook-card col-yellow">
+            <div class="tape-effect"></div>
+            <h2 class="column-title">Medium</h2>
+            {% for task in medium %}
+                <div class="task-item">{{ task.title }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="scrapbook-card col-blue">
+            <div class="tape-effect"></div>
+            <h2 class="column-title">Low</h2>
+            {% for task in low %}
+                <div class="task-item">{{ task.title }}</div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <nav class="bottom-nav">
+      <a href="/" class="nav-item">
+        <span class="icon">🏠</span>
+        <span class="text">Home</span>
+      </a>
+      <a href="/priority" class="nav-item">
+        <span class="icon">📚</span>
+        <span class="text">Priority</span>
+      </a>
+      <a href="/categories" class="nav-item">
+        <span class="icon">📁</span>
+        <span class="text">Choice</span>
+      </a>
+      <a href="/dates" class="nav-item">
+        <span class="icon">📅</span>
+        <span class="text">Dates</span>
+      </a>
+    </nav>
+</body>
+</html>

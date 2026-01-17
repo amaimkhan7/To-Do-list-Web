@@ -3,17 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>To Do List</title>
+    <title>TaskStream | Cute Journal To-Do</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <div class="container">
-        <div class="input-container">
-            <h1>My To Do List</h1>
-            <input type="text"placeholder="Add a new to do...">
-            <input type="button" value="Add">
+
+    <div class="container" style="position: relative;">
+        <img src="{{ url_for('static', filename='image2.png') }}" class="mascot-img" alt="">
+        <img src="{{ url_for('static', filename='image1.png') }}" class="top-right-notepad">
+        <h1>TaskStream</h1>
+
+        <form action="/add" method="POST">
+            <input type="text" name="title" placeholder="What needs to be done?" style="flex: 2;" required>
+            <select name="category">
+                <option value="Work">Work</option>
+                <option value="Personal">Personal</option>
+                <option value="Study">Study</option>
+            </select>
+            <select name="priority">
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+            </select>
+            <input type="date" name="due_date" required>
+            <button type="submit" style="background-color: var(--accent-pink); color: white; border:none; border-radius: 20px; padding: 10px 25px; font-weight:600; box-shadow: 0 5px 0px #e09ba9; cursor:pointer;">ADD</button>
+        </form>
+
+        <div class="search-section">
+            <form action="/" method="GET" style="margin-bottom: 0;">
+                <input type="text" name="search" placeholder="Search tasks..." value="{{ search_query }}" style="flex: 1;">
+                <button type="submit" class="btn-action btn-complete" style="min-width: 120px;">SEARCH</button>
+            </form>
         </div>
 
+        <div class="task-list">
+            {% for task in tasks %}
+            <div class="task-card {{ task.priority }}">
+                <div class="task-info">
+                    <h3 {% if task.completed %} style="text-decoration: line-through; opacity: 0.5;" {% endif %}>
+                        {{ task.title }}
+                    </h3>
+                    <p>{{ task.category }} | Priority: {{ task.priority }} | Due: {{ task.due_date }}</p>
+                </div>
+                <div class="actions">
+                    <a href="/update/{{ task.id }}" class="btn-action btn-complete">
+                        {{ 'Undo' if task.completed else 'Complete' }}
+                    </a>
+                    <a href="/delete/{{ task.id }}" class="btn-action btn-delete">
+                        Delete
+                    </a>
+                </div>
+                <div id="task-section"></div>
+            </div>
+            {% endfor %}
+        </div>
     </div>
+    <nav class="bottom-nav">
+      <a href="/" class="nav-item">
+        <span class="icon">🏠</span>
+        <span class="text">Home</span>
+      </a>
+      <a href="/priority" class="nav-item">
+        <span class="icon">📚 </span>
+        <span class="text">Priority</span>
+      </a>
+      <a href="/categories" class="nav-item">
+        <span class="icon">📁</span>
+        <span class="text">Choice</span>
+      </a>
+      <a href="/dates" class="nav-item">
+        <span class="icon">📅</span>
+        <span class="text">Dates</span>
+      </a>
+    </nav>
+
 </body>
 </html>
